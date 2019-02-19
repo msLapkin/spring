@@ -1,0 +1,65 @@
+CREATE USER 'user'@'localhost' IDENTIFIED BY '123';
+GRANT ALL PRIVILEGES ON * . * TO 'user'@'localhost';
+FLUSH PRIVILEGES;
+===
+DROP TABLE IF EXISTS products;
+
+CREATE TABLE products (
+	id INT(11) NOT NULL AUTO_INCREMENT,
+    title VARCHAR(100) DEFAULT NULL,
+    manufacture_id int(11) DEFAULT NULL,
+    PRIMARY KEY(id),
+    CONSTRAINT FK_MAN_ID FOREIGN KEY (manufacture_id)
+    REFERENCES manufactures (id)
+) ENGINE=InnoDB CHARSET=utf8;
+===
+DROP TABLE IF EXISTS manufactures;
+
+CREATE TABLE manufactures (
+	id INT(11) NOT NULL AUTO_INCREMENT,
+    title VARCHAR(100) DEFAULT NULL,
+    PRIMARY KEY(id)
+) ENGINE=InnoDB CHARSET=utf8;
+===
+DROP TABLE IF EXISTS clients;
+
+CREATE TABLE clients (
+	id INT(11) NOT NULL AUTO_INCREMENT,
+    name VARCHAR(100) DEFAULT NULL,
+    PRIMARY KEY(id)
+) ENGINE=InnoDB CHARSET=utf8;
+===
+DROP TABLE IF EXISTS clients_products;
+
+CREATE TABLE clients_products (
+	product_id INT(11) NOT NULL,
+    client_id INT(11) NOT NULL,
+    PRIMARY KEY(product_id,client_id),
+    CONSTRAINT FK_PROD FOREIGN KEY (product_id)
+        REFERENCES products (id)
+        ON DELETE NO ACTION ON UPDATE NO ACTION,
+    CONSTRAINT FK_CLNT FOREIGN KEY (client_id)
+        REFERENCES clients (id)
+        ON DELETE NO ACTION ON UPDATE NO ACTION,
+) ENGINE=InnoDB CHARSET=utf8;
+===
+INSERT INTO `products`.`clients` (`id`, `name`) VALUES ('1', 'John');
+INSERT INTO `products`.`clients` (`id`, `name`) VALUES ('2', 'Mary');
+INSERT INTO `products`.`clients` (`id`, `name`) VALUES ('3', 'Igor');
+INSERT INTO `products`.`clients` (`id`, `name`) VALUES ('4', 'Julie');
+===
+INSERT INTO `products`.`manufactures` (`id`, `title`) VALUES ('1', 'Samsung');
+INSERT INTO `products`.`manufactures` (`id`, `title`) VALUES ('2', 'Phillips');
+INSERT INTO `products`.`manufactures` (`id`, `title`) VALUES ('3', 'Huawei');
+INSERT INTO `products`.`manufactures` (`id`, `title`) VALUES ('4', 'Nokia');
+===
+INSERT INTO `products`.`products` (`id`, `title`, `manufacture_id`) VALUES ('1', 'Phone', '4');
+INSERT INTO `products`.`products` (`id`, `title`, `manufacture_id`) VALUES ('2', 'Honor', '3');
+INSERT INTO `products`.`products` (`id`, `title`, `manufacture_id`) VALUES ('3', 'TV', '1');
+INSERT INTO `products`.`products` (`id`, `title`, `manufacture_id`) VALUES ('4', 'Monitor', '2');
+INSERT INTO `products`.`products` (`id`, `title`, `manufacture_id`) VALUES ('5', 'Mouse', '2');
+===
+INSERT INTO `products`.`clients_products` (`product_id`, `client_id`) VALUES ('2', '1');
+INSERT INTO `products`.`clients_products` (`product_id`, `client_id`) VALUES ('3', '2');
+INSERT INTO `products`.`clients_products` (`product_id`, `client_id`) VALUES ('4', '1');
+INSERT INTO `products`.`clients_products` (`product_id`, `client_id`) VALUES ('2', '4');
