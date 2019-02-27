@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+
+    <title>Стартовая страница</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+
+    <meta name="ctx" th:content="${#httpServletRequest.getContextPath()}"/>
+</head>
+
+<body>
+Фильтр по цене:
+<form action="index">
+    <p>от: <input name="min" value="0"> до: <input name="max"value="0"></p>
+    <p><input type="submit"></p>
+</form>
+<div class="container">
+    <br>
+    <h1>Стартовая страница</h1>
+
+    <table class="table table-hover">
+        <thead class="thead-dark">
+        <tr>
+            <th>ID</th>
+            <th>TITLE</th>
+            <th>PRICE</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="product : ${products}">
+            <td th:text="${product.id}"/>
+            <td th:text="${product.title}"/>
+            <td th:text="${product.price}"/>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>
