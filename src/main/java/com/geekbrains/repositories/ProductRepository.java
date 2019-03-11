@@ -10,9 +10,10 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ProductRepository extends CrudRepository<Product,Long> {
+public interface ProductRepository extends PagingAndSortingRepository<Product,Long> {
     //public Page<Product> findAllByPrice(PageRequest pageRequest, int price);
     public Product findProductById(Long id);
-    public List<Product> findProductsByPriceBetween(int min, int max);
+    public List<Product> findProductsByPriceBetween(double min, double max);
+    //public List<Product> c
     public List<Product> findAll();
 }

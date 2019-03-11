@@ -13,32 +13,45 @@
 </head>
 
 <body>
-Фильтр по цене:
-<form action="index">
-    <p>от: <input name="min" value="0"> до: <input name="max"value="0"></p>
-    <p><input type="submit"></p>
-</form>
+<div th:replace="~{navigation::navi(Home)}"/>
+
+
 <div class="container">
     <br>
-    <h1>Стартовая страница</h1>
-
+    <h1>Товары</h1>
+    Фильтр по цене:
+    <form action="index">
+        <p>от: <input name="min" value="0"> до: <input name="max"value="0">    <input type="submit" value="Поиск"></p>
+    </form>
+    <span th:if="${products.size() == 0}">Товаров нет</span>
+    <div th:unless="${products.size() == 0}">
     <table class="table table-hover">
         <thead class="thead-dark">
         <tr>
             <th>ID</th>
-            <th>TITLE</th>
-            <th>PRICE</th>
+            <th>Наименование</th>
+            <th>Цена</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="product : ${products}">
+        <tr th:each="product : ${pageProduct}">
             <td th:text="${product.id}"/>
-            <td th:text="${product.title}"/>
+            <td><a th:href="@{'/info/' + ${product.id}}" th:text="${product.title}"/></td>
             <td th:text="${product.price}"/>
         </tr>
         </tbody>
     </table>
+    <nav aria-label="Page navigation example">
+        <div th:if="${pageProduct.totalPages > 0}" class="pagination"
+        th:each="pageNumber : ${pageNumbers}">
+        <a th:href="@{/''}"
+           th:text=${pageNumber}
+           th:class="${pageNumber==pageProduct.number + 1} ? active"></a>
+        </div>
+    </nav>
 </div>
+</div>
+
 
 </body>
 </html>
